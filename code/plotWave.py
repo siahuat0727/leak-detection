@@ -14,6 +14,7 @@ def plot(location, file_name):
 			plt.plot(data)
 			# plt.show()
 			plt.savefig(path[:-3] + "png")
+			plt.clf()
 	else:
 		print('"'+ path + '" does not exist')
 
