@@ -3,7 +3,12 @@ import matplotlib.pyplot as plt
 import serial
 import serial.tools.list_ports
 import datetime
+import sys
 #coms=serial.tools.list_ports.comports()
+filename=input("filename: ")
+picname=input("picturename: ")
+filename=filename+".txt"
+picname=picname+".png"
 plt.ion()  
 y = []
 """for a in coms:
@@ -17,7 +22,7 @@ sp.open()
 start = datetime.datetime.now()
 end=start
 sp.readline()
-file=open("data.txt",'w')
+file=open(filename,'w')
 while sp.isOpen():
     text=sp.readline().decode()
     file.write(text)
@@ -28,7 +33,7 @@ while sp.isOpen():
     if (time.seconds)>=40:
         break
 plt.plot(y)
-plt.savefig("test.png",dpi=300,format="png")
+plt.savefig(picname,dpi=300,format="png")
 plt.show()
 file.close()
 print("end")
