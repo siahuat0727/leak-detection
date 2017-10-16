@@ -13,10 +13,10 @@ def plot(location, file_name):
             plt.title(location[3:-1] + "  " + file_name[:-4])
             plt.plot(data)
             # plt.show()
-            graph_name = path[:-3] + "png"
-            plt.savefi(graph_name)
+            graph_path = path[:-3] + "png"
+            plt.savefi(graph_path)
             plt.clf()
-            print(graph_name + "is plotted")
+            print(graph_path + "is plotted")
 
 def plot2(location, x, y):
     file_type = ".txt"
