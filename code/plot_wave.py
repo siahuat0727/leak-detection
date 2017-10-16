@@ -13,13 +13,14 @@ def plot(location, file_name):
             plt.title(location[3:-1] + "  " + file_name[:-4])
             plt.plot(data)
             # plt.show()
-            plt.savefig(path[:-3] + "png")
+            graph_name = path[:-3] + "png"
+            plt.savefi(graph_name)
             plt.clf()
-    else:
-        print('"'+ path + '" does not exist')
+            print(graph_name + "is plotted")
 
 def plot2(location, x, y):
-    file_name = str(x) + "-" + str(y) + ".txt"
+    file_type = ".txt"
+    file_name = str(x) + "-" + str(y) + file_type
     plot(location, file_name)
 
 def plotAll():
