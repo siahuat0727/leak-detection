@@ -2,13 +2,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 import itertools
 import os.path
+import scipy.io.wavfile
+
+'''
+location  : ../***/***/***/   ex. ../leak/
+file_name : ***.*             ex. 1-20.txt
+path      : ../***/***/***.*  ex. ../leak/1-20.txt
+'''
+
+def toWave(location, file_name, sample_rate=3918):
+    path = location + file_name
+    if os.path.exists(path):
+        with open(path) as f:
+            wave = np.genfromtxt(path, dtype = np.int16)
+            wave = 300 * (wave - int(np.mean(wave)))
+            wave_path = path[:-3] + "wav"
+            scipy.io.wavfile.write(wave_path, sample_rate, wave)
+            print(wave_path + " is saved")
 
 def plot(location, file_name):
     path = location + file_name
     if os.path.exists(path):
         with open(path) as f:
             data = [int(x) for x in next(f).split()]
-            data = data[1000:1500]
+            # data = data[1000:1500]
             # plt.figure(file_name)
             plt.title(location[3:-1] + "  " + file_name[:-4])
             plt.ylim(280, 420)
@@ -19,17 +36,15 @@ def plot(location, file_name):
             plt.clf()
             print(graph_path + " is plotted")
 
-def plot2(location, x, y):
-    file_type = ".log"
-    file_name = str(x) + "-" + str(y) + "_new"  + file_type
-    plot(location, file_name)
+def get_file_name(x, y, file_type=".txt"):
+    return str(x) + "-" + str(y) + file_type
 
-def plotAll():
-    folder_name = ["no_leak", "leak"]
-    for location in ["../" + str(x) + "/" for x in folder_name]:
+def doForAllFolders(folders, func):
+    for location in ["../" + str(x) + "/" for x in folders]:
         for x, y in itertools.product(range(1,8), range(0, 100, 20)):
-            plot2(location, x, y)
-        plot(location, "open_close_new.log");
+            file_name = get_file_name(x, y)
+            func(location, file_name)
 
-plotAll()
+folders = ["4khz_data_no_leak", "4khz_data_leak"]
+doForAllFolders(folders, plot)
 # plot("../no_leak_new/", "open_close.txt")
