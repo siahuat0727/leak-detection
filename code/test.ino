@@ -26,6 +26,7 @@ void loop(){
   delay(5000);
 }*/const int pin = A0;
  unsigned long n =50000;  // sample 採樣 1000 次
+ String a;
 void setup() {
   Serial.begin(115200);
   setP16( ) ;
@@ -35,8 +36,12 @@ void loop( ) { //
   unsigned long begt, runt, total;
   //total = 0;  // clear before sampling
   //begt = micros();
+  
     total = analogRead(pin);
-    Serial.print(total);
+    Serial.write(highByte(total));
+    Serial.write(lowByte(total));
+    Serial.write("\n");
+  
   //runt = micros() - begt;  // elapsed time
   //Serial.println();
   //Serial.print(String("Time per sample: ")+runt/1.0/n +"us");
