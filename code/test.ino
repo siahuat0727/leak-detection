@@ -8,6 +8,7 @@ void setup(){
   {
     micout=analogRead(mic);
   }
+   analogReference(EXTERNAL);
 }
 void loop(){
   time = millis();
@@ -30,6 +31,7 @@ void loop(){
 void setup() {
   Serial.begin(115200);
   setP16( ) ;
+analogReference(EXTERNAL);
 
 }
 void loop( ) { // 
@@ -43,7 +45,7 @@ void loop( ) { //
     Serial.write("\n");
   
   //runt = micros() - begt;  // elapsed time
-  //Serial.println();
+   // Serial.println(total);
   //Serial.print(String("Time per sample: ")+runt/1.0/n +"us");
   //Serial.println(String(", Frequency: ")+1000000.0/runt*n +" Hz");
   //delay(5566);
