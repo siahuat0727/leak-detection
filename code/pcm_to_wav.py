@@ -1,5 +1,4 @@
-dd Head Infomation for pcm file 
-'''
+'''dd Head Infomation for pcm file '''
 import sys 
 import struct 
 import os 
