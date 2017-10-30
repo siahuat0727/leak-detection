@@ -31,7 +31,7 @@ def plot(location, file_name):
             plt.title(location[3:-1] + "  " + file_name[:-4])
             plt.ylim(280, 420)
             plt.plot(data)
-           ## plt.show()
+            # plt.show()
             graph_path = path[:-3] + "png"
             #plt.savefig(graph_path)
             #plt.clf()
