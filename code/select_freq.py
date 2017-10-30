@@ -73,24 +73,38 @@ def ChoosePeak(W,f_signal, new_signal):
 def PlotPeak(location1, location2, file_name):
 	path1 , path2 = location1 + file_name, location2 + file_name
 	global index
-	plt.subplot(6, 1, index)
-	title = file_name[:-4]
+	plt.subplot(6, 3, index)
+	title = location1[3:] + file_name[:-4]
 	plt.title(title)
 	plt.xlim(100, 1000)
 	plt.ylim(-10000, 10000)
-	W, new_signal = FFT(path1)
-	plt.plot(W,new_signal, 'g')
-	W, new_signal = FFT(path2)
-	#plt.plot(W,f_signal, 'r')
+	W1, new_signal1 = FFT(path1)
+	plt.plot(W1,new_signal1, 'g')
 	print(title + " is plotted")
 	index += 1;
-index = 1
+	plt.subplot(6, 3, index)
+	title = location2[3:] + file_name[:-4]
+	plt.title(title)
+	plt.xlim(100, 1000)
+	plt.ylim(-10000, 10000)
+	W2, new_signal2 = FFT(path2)
+	plt.plot(W2,new_signal2, 'g')
+	print(title + " is plotted")
+	index += 1;
+	plt.subplot(6, 3, index)
+	title = file_name[:-4] + " leak - no_leak"
+	plt.title(title)
+	plt.xlim(100, 1000)
+	plt.ylim(-10000, 10000)
+	plt.plot(W1,np.array(new_signal2) - np.array(new_signal1), 'g')
+	print(title + " is plotted")
+	index += 1;
 
 def compareTwoFolders(location1, location2, raw=6):
     for x, y in itertools.product(range(1,8), range(0, 100, 20)):
         file_name = get_file_name(x, y)
         path1, path2 = location1 + file_name, location2 + file_name
-        if(os.path.exists(path1) and os.path.exists(path1)):
+        if(os.path.exists(path1) and os.path.exists(path2)):
             PlotPeak(location1, location2, file_name)
     plt.show()
 index = 1
