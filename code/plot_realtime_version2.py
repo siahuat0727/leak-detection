@@ -26,14 +26,20 @@ while sp.isOpen():
     text=sp.readline()
     tEnd = time.time()
     y.append(text)
-    if (tEnd - tStart)>=10:
+    if (tEnd - tStart)>=20:
         break
-print(y[0:50])
-print(len(y)/(tEnd - tStart),"Hz")
 z=[]
+flag=False
 file=open(filename,'w')
 for i in y :
-    x=int.from_bytes(i[0:len(i)-1], byteorder='big')
+    if(flag):
+        flag=False
+        continue
+    if(len(i)==2):
+        flag=True
+        x=int.from_bytes(i, byteorder='big')
+    else :
+        x=int.from_bytes(i[0:len(i)-1], byteorder='big')
     z.append(x)
     file.write(str(x))
     file.write("\n")
@@ -41,4 +47,6 @@ plt.plot(z)
 plt.show()
 plt.savefig(picname,dpi=300,format="png")
 file.close()
+print(len(z)/(tEnd - tStart),"Hz")
+print(z[0:1000])
 print("end")
