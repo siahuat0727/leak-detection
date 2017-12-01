@@ -16,8 +16,10 @@ def toWave(location, file_name, sample_rate=3918):
     if os.path.exists(path):
         with open(path) as f:
             wave = np.genfromtxt(path, dtype = np.int16)
-            print(np.mean(wave))
-            wave = 100 * (wave - int(np.mean(wave)))
+            print("mean = " + str(np.mean(wave)))
+            wave = 300 * (wave - int(np.mean(wave)))
+            print("max = " + str(np.max(wave)))
+            print("min = " + str(np.min(wave)))
             wave_path = path[:-3] + "wav"
             scipy.io.wavfile.write(wave_path, sample_rate, wave)
             print(wave_path + " is saved")
@@ -139,7 +141,7 @@ def compareTwoFolders(location1, location2, raw=6):
 
 index = 1
 # compareTwoFolders("../4khz_data_no_leak/", "../4khz_data_leak/")
-toWave("../vioce/", "t.txt")
+toWave("../voice/", "1-80.txt")
 
 # folders = ["4khz_data_no_leak", "4khz_data_leak"]
 
