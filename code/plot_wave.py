@@ -28,12 +28,13 @@ def txtToWav(location, file_name, sample_rate=40000):
         with open(path) as f:
             wave = np.genfromtxt(path, dtype = np.int16)
             wave = np.asarray(wave)
-            wave = wave[3000:]
+            wave = wave[100002:]
+            # wave = [x for i, x in enumerate(wave) if i %2==0]
             wave = np.array(wave)
-            print("mean =", np.mean(wave))
+            print("mean = ", np.mean(wave), end=' ')
             wave = 50 * (wave - int(np.mean(wave)))
-            print("max =", np.max(wave))
-            print("min =", np.min(wave))
+            print("max = ", np.max(wave), end=' ')
+            print("min = ", np.min(wave), end=' ')
             wave_path = path[:-3] + "wav"
             scipy.io.wavfile.write(wave_path, sample_rate, wave)
             print(wave_path + " is saved")
@@ -51,20 +52,26 @@ def wavToGraph(location, file_name):
     else:
         print(path, "DNE")
 
-def txtToGraph(location, file_name, save=False):
+def txtToGraph(location, file_name, save=True):
     path = location + file_name
     if os.path.exists(path):
         with open(path) as f:
-            f.readline()
-            f.readline()
-            data = [int(x) for x in f.readlines()] # if data are separated by '\n'
+            data = np.genfromtxt(path, dtype = np.int16)
+            data = np.asarray(data)
+            data = data[2:]
+            data = np.array(data)
+            print("mean = ", np.mean(data), end=' ')
+            data = 50 * (data - int(np.mean(data)))
+            print("max = ", np.max(data), end=' ')
+            print("min = ", np.min(data), end=' ')
+            # data = [int(x) for x in f.readlines()] # if data are separated by '\n'
             # data = [int(x) for x in next(f).split()] # if data are separated by ' '
             # data = data[1000:1500]
             # plt.figure(file_name)
             plt.title(location[3:-1] + "  " + file_name[:-4])
             graph_path = path[:-3] + "png"
+            plt.plot(data)
             if save == False:
-                plt.plot(data)
                 plt.show()
             else:
                 plt.savefig(graph_path)
@@ -73,8 +80,8 @@ def txtToGraph(location, file_name, save=False):
     else:
         print(path, "DNE")
 
-def get_file_name(x, y, file_type=".txt"):
-    return str(x) + "-" + str(y) + file_type
+def get_file_name(x, y, file_type=".csv"):
+    return str(x) + "_" + str(y) + file_type
 
 def doForAllFolders(folders, func):
     for location in ["../" + str(x) + "/" for x in folders]:
@@ -138,6 +145,8 @@ def compareTwoFolders(location1, location2, raw=6):
 # compareTwoFolders("../4khz_data_no_leak/", "../4khz_data_leak/")
 # txtToWav("../voice/", "1-80.txt")
 # folders = ["4khz_data_no_leak", "4khz_data_leak"]
-# doForAllFolders(folders, plot)
-txtToGraph("../", "analog04.csv")
-wavToGraph("../", "analog04.wav")
+# doForAllFolders(['pip'], txtToWav)
+# txtToGraph("../pip/", "1_20.csv")
+txtToWav("../gas voice/", "gas1.csv")
+txtToWav("../gas voice/", "gas2.csv")
+txtToWav("../gas voice/", "gas3.csv")
