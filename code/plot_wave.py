@@ -28,7 +28,7 @@ def txtToWav(location, file_name, sample_rate=40000):
         with open(path) as f:
             wave = np.genfromtxt(path, dtype = np.int16)
             wave = np.asarray(wave)
-            wave = wave[100002:]
+            wave = wave[2:]
             # wave = [x for i, x in enumerate(wave) if i %2==0]
             wave = np.array(wave)
             print("mean = ", np.mean(wave), end=' ')
@@ -52,7 +52,7 @@ def wavToGraph(location, file_name):
     else:
         print(path, "DNE")
 
-def txtToGraph(location, file_name, save=True):
+def txtToGraph(location, file_name, save=False):
     path = location + file_name
     if os.path.exists(path):
         with open(path) as f:
@@ -147,6 +147,7 @@ def compareTwoFolders(location1, location2, raw=6):
 # folders = ["4khz_data_no_leak", "4khz_data_leak"]
 # doForAllFolders(['pip'], txtToWav)
 # txtToGraph("../pip/", "1_20.csv")
-txtToWav("../gas voice/", "gas1.csv")
-txtToWav("../gas voice/", "gas2.csv")
-txtToWav("../gas voice/", "gas3.csv")
+txtToGraph("../co2/", "analog05.csv")
+txtToGraph("../co2/", "analog06.csv")
+txtToWav("../co2/", "analog05.csv")
+txtToWav("../co2/", "analog06.csv")
