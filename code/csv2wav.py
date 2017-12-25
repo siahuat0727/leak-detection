@@ -2,8 +2,7 @@ import numpy as np
 import os.path
 import scipy.io.wavfile
 
-def csvToWav(location, file_name, sample_rate=40000, skip=2):
-    path = location + file_name
+def csvToWav(path, sample_rate=40000, skip=2):
     if os.path.exists(path):
         wave = np.genfromtxt(path, dtype = np.int16)
         wave = np.asarray(wave)
@@ -20,12 +19,9 @@ def csvToWav(location, file_name, sample_rate=40000, skip=2):
 
 while True:
 	print('\n**********convert csv to wav**********')
+
 	# get path
-	folder = input("folder? (e.g. co2) ")
-	location = '../' + folder + '/'
-	file_name = input("file name? (e.g. analog05) ")
-	file_name = file_name + '.csv'
-	path = location + file_name
+	path = input("path? (e.g. ../co2/analog05.csv) ")
 
 	# check whether path exist
 	if os.path.exists(path) == False:
@@ -35,7 +31,7 @@ while True:
 	while True:
 		choice = input("use default setting?\nsample_rate = 40000\nskip first two line(maybe contains some informations like sample rate)\n[y/n]? ")
 		if choice == 'y':
-			csvToWav(location, file_name)
+			csvToWav(path)
 			break
 		elif choice == 'n':
 			# get sample rate
@@ -43,7 +39,7 @@ while True:
 		
 			# get lines to skip
 			skip = int(input("skip how many lines? "))
-			csvToWav(location, file_name, sample_rate, skip)
+			csvToWav(path, sample_rate, skip)
 			break
 		else:
 			print("accept only 'y' or 'n'")
