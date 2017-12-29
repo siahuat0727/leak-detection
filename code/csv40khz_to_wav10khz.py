@@ -1,8 +1,11 @@
 import numpy as np
+from os import listdir
+from os.path import isfile, join
 import os.path
 import scipy.io.wavfile
 
-def csvToWav(path, sample_rate=40000, skip=2):
+
+def csvToWav(path, sample_rate=40000, skip=2, drop=4):
     if os.path.exists(path):
         wave = np.genfromtxt(path, dtype = np.int16)
         wave = np.asarray(wave)
@@ -16,9 +19,16 @@ def csvToWav(path, sample_rate=40000, skip=2):
     else:
         print(path, "does not exist")
 
+my_path = '../12_29_recorded'
+if not os.path.exists(my_path):
+	print(my_path, "DNE");
+files = [f for f in listdir(my_path) if isfile(join(my_path, f))]
+for f in files:
+	csvToWav(my_path + '/' + f)
 
+'''
 while True:
-	print('\n**********convert csv to wav**********')
+	print('\n**********convert n kHz csv to n/drop kHz wav**********')
 
 	# get path
 	path = input("path? (e.g. ../co2/analog05.csv) ")
@@ -29,7 +39,7 @@ while True:
 		continue
 
 	while True:
-		choice = input("use default setting?\nsample_rate = 40000\nskip first two line(maybe contains some informations like sample rate)\n[y/n]? ")
+		choice = input("use default setting?\nsample_rate = 40000\nskip first two line(maybe contains some informations like sample rate)\ndrop = 4\n[y/n]? ")
 		if choice == 'y':
 			csvToWav(path)
 			break
@@ -39,8 +49,12 @@ while True:
 		
 			# get lines to skip
 			skip = int(input("skip how many lines? "))
-			csvToWav(path, sample_rate, skip)
-			break
+
+			#get drop
+			drop = int(input("drop? (n to n/drop)"))
+			csvToWav(path, sample_rate, skip, drop)
+			brea
 		else:
 			print("accept only 'y' or 'n'")
-
+'''
+		

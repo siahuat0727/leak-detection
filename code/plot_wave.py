@@ -11,6 +11,20 @@ file_name : ***.*             ex. 1-20.txt
 path      : ../***/***/***.*  ex. ../leak/1-20.txt
 '''
 
+def csvToLowWav(path, sample_rate=10000, skip=2):
+    if os.path.exists(path):
+        wave = np.genfromtxt(path, dtype = np.int16)
+        wave = np.asarray(wave)
+        wave = wave[skip:]
+        wave = [x for i, x in enumerate(wave) if i%4 == 0]
+        wave = np.array(wave)
+        wave = 50 * (wave - int(np.mean(wave)))
+        wave_path = path[:-3] + "wav"
+        scipy.io.wavfile.write(wave_path, sample_rate, wave)
+        print(wave_path + " is saved\n")
+    else:
+        print(path, "does not exist")
+
 def readToList(path, spread='\n'):
     if os.path.exists(path):
         with open(path) as f:
@@ -22,7 +36,7 @@ def readToList(path, spread='\n'):
                 data = [int(x) for x in next(f).split()] # if data are separated by ' '
             return data
 
-def txtToWav(location, file_name, sample_rate=40000):
+def txtToWav(location, file_name, sample_rate=10000):
     path = location + file_name
     if os.path.exists(path):
         with open(path) as f:
@@ -147,7 +161,4 @@ def compareTwoFolders(location1, location2, raw=6):
 # folders = ["4khz_data_no_leak", "4khz_data_leak"]
 # doForAllFolders(['pip'], txtToWav)
 # txtToGraph("../pip/", "1_20.csv")
-txtToGraph("../co2/", "analog05.csv")
-txtToGraph("../co2/", "analog06.csv")
-txtToWav("../co2/", "analog05.csv")
-txtToWav("../co2/", "analog06.csv")
+txtToWav("../10khz_voice/", "analog02.csv")
